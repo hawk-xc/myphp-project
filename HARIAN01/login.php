@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    <code style="font-family: monospace; 
+            font-size: 14px; 
+            color: red;">using test / test</code>
     <div class="container">
         <form action="" method="post">
             <div class="box">
@@ -35,7 +38,7 @@
         
         session_start();
         if(isset($_SESSION['login'])) {
-            header('Location: halaman.php');
+            header('Location: index.php');
             exit;
         }
         
@@ -65,7 +68,7 @@
                     setcookie('id', $row['id'], time() + 60 * 60 * 24 * 30);
                     setcookie('host', hash('sha256', $row['username']), time() + 60 * 60 * 24 * 30);
                 }
-                header('Location: halaman.php');
+                header('Location: index.php');
             } elseif (login($_POST) === 2) {
                 echo "
                 <script>
@@ -96,9 +99,11 @@ body {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #0c1015;
+    gap: 0.4rem
 }
 
 .container {
