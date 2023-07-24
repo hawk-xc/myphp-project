@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD:HARIAN01/user.php
 <?php
 session_start();
 if(!isset($_SESSION['login'])) {
@@ -15,13 +16,20 @@ if(!isset($_SESSION['login'])) {
     $arr_image = sqlquery("SELECT * FROM menus_image WHERE id=$id");
 ?>
 
+=======
+>>>>>>> 9b6e67e44dde0a656c20bb65c4a509d0d3a5774d:HARIAN01/product.php
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD:HARIAN01/user.php
     <title>User Lookup : <?php echo $_GET['id']; ?></title>
+=======
+    <title>Product Menu</title>
+>>>>>>> 9b6e67e44dde0a656c20bb65c4a509d0d3a5774d:HARIAN01/product.php
 </head>
-
 <body>
+<<<<<<< HEAD:HARIAN01/user.php
     <div class="container">
         <img class="profile_photo" src="<?php echo $arr_image['path']; ?>"
             alt="<?php echo $arr_user['username']; ?> image">
@@ -102,4 +110,8 @@ body {
 }
 </style>
 
+=======
+    
+</body>
+>>>>>>> 9b6e67e44dde0a656c20bb65c4a509d0d3a5774d:HARIAN01/product.php
 </html>
