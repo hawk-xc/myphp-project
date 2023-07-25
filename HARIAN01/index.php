@@ -28,8 +28,7 @@ if(isset($_SESSION['login'])) {
             <div class="header-title">
                 <!-- title header -->
                 <img src="media/noodles/1.png" alt="">
-                <span style="color:Orange;">T</span>amago<span style="color:lightblue;">T</span>oufu<span
-                    style="color:lightgreen;">T</span>ame
+                <span style="color:Orange;">W</span>armindo<span style="color:lightblue;">K</span>enangan
                 <!-- end title header -->
             </div>
             <div class="content">
@@ -39,13 +38,16 @@ if(isset($_SESSION['login'])) {
                     <?php
                     if(!isset($_COOKIE['host'])) {
                     ?>
-                    <li><a href="">Sing Up</a></li>
+                    <li><a href="register.php">Sign Up</a></li>
                     <li><a href="logout.php">Login</a></li>
                     <?php
                     } else {
-                        if(isset($_COOKIE['id'])): 
-                            echo "<li><a href='cart.php?id=". $id. "'>Keranjang</a></li>";
-                            echo "<li><a href='user.php' class='label'>user id ". $_COOKIE['id']. "</a></li>";
+                        if(isset($_COOKIE['host'])): 
+                            $id = $_COOKIE['id'];
+                            $user_check = mysqli_query($connection, "SELECT * FROM user WHERE id=$id");
+                            $data_user = mysqli_fetch_assoc($user_check);
+                            echo "<li><a href='cart.php?id=". $_COOKIE['id']. "'>Keranjang</a></li>";
+                            echo "<li><a href='user.php' class='label'>hello ". $data_user['username'] . "</a></li>";
                         endif;
                     }
                     ?>
@@ -63,8 +65,8 @@ if(isset($_SESSION['login'])) {
         <!-- banner section -->
         <div class="hello-world">
             <div class="typography">
-                <span class="mini-text">website Solusi Menu Mie INstan Populer</span>
-                <span class="banner-text">Waroeng pakdhe</span>
+                <span class="mini-text">website Warmindo kenangan tugu keris </span>
+                <span class="banner-text">Warmindo Kenangan</span>
                 <div class="nav-button">
                     <a href="cart.php?id=<?php echo $id; ?>">
                         <button class="button-52" role="button">Cart</button>
@@ -143,7 +145,7 @@ if(isset($_SESSION['login'])) {
             }
             // var_dump($arr_menus);
         ?>
-            <img src="media/ayam-gif.gif" alt="">
+            <!-- <img src="media/ayam-gif.gif" alt=""> -->
         </div>
 
     </div>

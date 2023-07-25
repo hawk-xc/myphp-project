@@ -19,7 +19,7 @@ if(mysqli_affected_rows($connection) > 0) {
 echo "
 <script>
 alert('data berhasil ditambahkan!');
-window.location = 'index.php';
+window.location = 'index.php#menu';
 </script>
 ";
 // header('location: halaman.php');
@@ -27,7 +27,7 @@ window.location = 'index.php';
 echo "
 <script>
 alert('data galat ditambahkan!');
-window.location = 'index.php';
+window.location = 'index.php#menu';
 </script>
 ";
 // header('location: halaman.php');

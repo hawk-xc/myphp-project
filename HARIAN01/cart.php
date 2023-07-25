@@ -12,6 +12,14 @@ if($_GET['id'] !== $_COOKIE['id']) {
     header('Location: login.php');
     exit;
 }
+
+include 'functions.php';
+
+    $id = $_GET['id'];
+    $query = mysqli_query($connection, "SELECT order_session, id_menus_image, menus_name, COUNT(*) * price_list AS total_harga, COUNT(*) AS jumlah FROM cart WHERE id=$id GROUP BY menus_name;");
+    $total = sqlquery("SELECT SUM(price_list) AS jumlah FROM cart WHERE id=$id");
+
+    if (mysqli_num_rows($query)) {
 ?>
 
 <head>
@@ -32,13 +40,9 @@ if($_GET['id'] !== $_COOKIE['id']) {
                 <th>nama menu</th>
                 <th>total harga</th>
                 <th>jumlah</th>
+                <th>panel</th>
             </tr>
             <?php
-    include 'functions.php';
-
-    $id = $_GET['id'];
-    $query = mysqli_query($connection, "select id_menus_image, menus_name, count(*) * price_list as total_harga, count(*) as jumlah from cart group by menus_name;");
-    $total = sqlquery("SELECT SUM(price_list) AS jumlah FROM cart WHERE id=$id");
     while ($arr = mysqli_fetch_assoc($query)):
     ?>
             <tr>
@@ -46,6 +50,14 @@ if($_GET['id'] !== $_COOKIE['id']) {
                 <td><?php echo $arr['menus_name']; ?></td>
                 <td><?php echo $arr['total_harga']; ?></td>
                 <td><?php echo $arr['jumlah']; ?></td>
+                <td class='panel'>
+                    <a href="ubah.php">
+                        <i data-feather="edit" class="icon-edit"></i></a>
+                    </a>
+                    <a href="delete_menu.php?menu_session=<?php echo $arr['order_session']; ?>&id=<?php echo $_GET['id']; ?>"
+                        class="icon-delete" onclick="return confirm('hapus?')"><i data-feather="delete"
+                            class=""></i></a>
+                </td>
             </tr>
             <?php
     endwhile;
@@ -53,7 +65,20 @@ if($_GET['id'] !== $_COOKIE['id']) {
         </table>
         <?php
     echo $total['jumlah'];
+} else {
     ?>
+        <div class="no-data">
+            <div class="header">
+                <a href="index.php">
+                    <i data-feather="link" class="icon-cart"></i>
+                    <span>Data Kosong</span>
+                </a>
+            </div>
+            <div class="content">
+                <p>untuk saat ini antrian cart kosong, silakan pesan menu</p>
+            </div>
+        </div>
+        <?php } ?>
     </div>
 </body>
 <style type="text/css">
@@ -93,10 +118,69 @@ th,
 td {
     border: 1px solid black;
     border-collapse: collapse;
+    padding-inline: 1.4rem;
+    padding-block: 0.2rem;
 }
 
 tr:hover {
     background-color: lightblue;
+}
+
+.panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel .icon-edit {
+    color: black;
+    transition: 0.5s;
+}
+
+.panel .icon-edit:hover {
+    color: blue;
+}
+
+.panel .icon-delete {
+    color: black;
+    transition: 0.5s;
+}
+
+.panel .icon-delete:hover {
+    color: red;
+}
+
+.no-data {
+    width: 300px;
+    background-image: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%);
+    height: 250px;
+    border-radius: 10px 10px 10px 10px;
+    color: #222222;
+    padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: 0.6s;
+}
+
+.no-data:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.no-data .header a {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #222222;
+    transition: 0.5s;
+}
+
+.no-data .header a:hover {
+    color: blueviolet;
 }
 </style>
 <script>
