@@ -1,5 +1,5 @@
 <?php
-$connection = mysqli_connect('localhost', 'popo', 'password', 'register');
+$connection = mysqli_connect('127.0.0.1', 'popo', 'password', 'register');
 
 function sqlquery($data) {
     global $connection;

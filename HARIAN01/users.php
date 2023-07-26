@@ -11,9 +11,9 @@ if(!isset($_SESSION['login'])) {
     include 'functions.php';
 
     $id = $_COOKIE['id'];
-    $arr = query("SELECT * FROM user WHERE id=$id");
-    $media = query("SELECT image FROM media WHERE id=$id");
-    $desc = query("SELECT * FROM description WHERE id=$id");
+    $arr = sqlquery("SELECT * FROM user WHERE id=$id");
+    $media = sqlquery("SELECT image FROM media WHERE id=$id");
+    $desc = sqlquery("SELECT * FROM description WHERE id=$id");
 ?>
 <head>
     <meta charset="UTF-8">
@@ -28,7 +28,7 @@ if(!isset($_SESSION['login'])) {
         </div>
         <div class="right-box">
             <div class="page">
-                <a href="halaman.php">Dashboard</a> > <a href="">Users</a>
+                <a href="index.php">Dashboard</a> > <a href="">Users</a>
             </div>
             <div class="image">
                 <img src="<?php echo $media['image']; ?>" alt="image <?php echo $_COOKIE['host']; ?>">

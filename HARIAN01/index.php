@@ -47,7 +47,7 @@ if(isset($_SESSION['login'])) {
                             $user_check = mysqli_query($connection, "SELECT * FROM user WHERE id=$id");
                             $data_user = mysqli_fetch_assoc($user_check);
                             echo "<li><a href='cart.php?id=". $_COOKIE['id']. "'>Keranjang</a></li>";
-                            echo "<li><a href='user.php' class='label'>hello ". $data_user['username'] . "</a></li>";
+                            echo "<li><a href='users.php' class='label'>hello ". $data_user['username'] . "</a></li>";
                         endif;
                     }
                     ?>
