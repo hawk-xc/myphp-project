@@ -9,19 +9,31 @@ function sqlquery($data) {
     return $result;
 }
 
-function register($data) {
+function register($data, $img) {
     global $connection;
     
+    // string input
+    $firstname = $data['f-name'];
+    $lastname = $data['l-name'];
+    $date = $data['date'];
+    $gender = $data['gender'];
+    $mail = $data['mail'];
+    $phone = $data['phone'];
+    $address = $data['address'];
     $username = $data['username'];
     $password = mysqli_escape_string($connection, $data['password']);
-    $re_confirm = mysqli_escape_string($connection, $data['re_password']);
+
+    // file input
+    $image_name = $img['media']['name'];
+    $image_temp = $img['media']['tmp_name'];
+    $image_size = $img['media']['size'];
+    $image_type = $img['media']['type'];
+
+    $image_ext = explode(".", $image_name);
+    $image_ext = strtolower(end($image_ext));
+    $ext = ['png', 'jpg', 'jpeg', 'gif'];
 
     $statusOk = true;
-
-    // cek password and reconfirm is true
-    if($password !== $re_confirm):
-        $statusOk = false;
-    endif;
 
     // cek username is exist
     $result = mysqli_query($connection, "SELECT * FROM user WHERE username='$username'");
@@ -30,11 +42,31 @@ function register($data) {
         return 2;
     }
 
+    if(!in_array($image_ext, $ext)) { 
+        return 3;
+        $statusOk = false;
+        exit;
+    }
+
     if($statusOk) {
+        // set path directory
+        $target_dir = "media/images/";
+        $img = $target_dir;
+        $img .= uniqid();
+        $img .= ".";
+        $img .= $image_ext;
+
+        // add user login credential
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $query = mysqli_query($connection, "INSERT INTO user (username, password) VALUES ('$username', '$password')");
-        if (mysqli_affected_rows($connection)){
-            return 1;
+        mysqli_query($connection, "INSERT INTO user (username, password) VALUES ('$username', '$password')");
+        // cek id apakah sudah exist
+        $id_exist = mysqli_query($connection, "SELECT id from user WHERE name='$username'");
+        if (mysqli_num_rows($id_exist)) {
+            mysqli_query($connection, "INSERT INTO user_desc (id, first_name, last_name, username, password, mail, phone, address) VALUES ($id_exist, '$firstname', '$lastname', '$username', '$password', '$mail', '$phone', '$address'");
+            move_uploaded_file($image_temp, $img);
+            if (mysqli_affected_rows($connection)){
+                return 1;
+            }
         }
     }
 }
