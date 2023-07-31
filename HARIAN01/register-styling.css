@@ -1,0 +1,167 @@
+@import url("https://fonts.googleapis.com");
+@import url("https://fonts.gstatic.com");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;800&display=swap");
+
+:root {
+    --hitam: #3b4252;
+    --shadow-box-1: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    --shadow-box-2: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    --soft-border: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    --soft-border-1: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: -moz-linear-gradient(to left, #fc2c78, #6d4079);
+}
+
+.container {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container .box {
+    display: grid;
+    grid-template-areas: 
+    "f-name l-name"
+    "date radio"
+    "mail phone"
+    "user pass"
+    "file-box file-box";
+    gap: 1rem;
+    color: var(--hitam);
+}
+
+.box .f-name {
+    grid-area: f-name;
+    flex-direction: column;
+}
+
+.box .l-name {
+    grid-area: l-name;
+    flex-direction: column;
+}
+
+.box .date {
+    grid-area: date;
+    flex-direction: column;
+}
+
+.box .radio {
+    grid-area: radio;
+    flex-direction: column;
+}
+
+.box .radio .input-box {
+    gap: 0.5rem;
+}
+
+.box .mail {
+    grid-area: mail;
+    flex-direction: column;
+}
+
+.box .phone {
+    grid-area: phone;
+    flex-direction: column;
+}
+
+.box .username {
+    grid-area: user;
+    flex-direction: column;
+}
+
+.box .password {
+    grid-area: pass;
+    flex-direction: column;
+}
+
+.box .box-input-file {
+    grid-area: file-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+input[type=file] {
+    width: 90%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #555;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #f92c78;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+
+input[type=file]:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;;
+}
+
+input {
+    border: 0px;
+    border-bottom: 1px solid var(--hitam);
+}
+
+.submit {
+    background: -moz-linear-gradient(to left, #fc2c78, #6d4079);
+    border: 0px;
+    padding-inline: 2rem;
+    padding-block: 0.5rem;
+    border-radius: 10px;
+    color: white;
+    font-weight: 800;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.submit:hover {
+    padding-inline: 2.2rem;
+    box-shadow: var(--shadow-box-1);
+}
+
+@media screen and (max-width: 750px) {
+    .container .box {
+        grid-template-areas: 
+            "f-name"
+            "l-name"
+            "date"
+            "radio"
+            "mail"
+            "phone"
+            "user"
+            "pass"
+            "file-box";
+    }
+    .submit {
+        background: linear-gradient(to left, #fc2c78, #6d4079);
+    }
+}

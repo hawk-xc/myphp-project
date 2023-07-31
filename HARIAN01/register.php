@@ -85,14 +85,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #0c1015;
+    background-color: #fffff;
 }
 
 .container {
-    color: #ffff;
+    color: #fffff;
     display: block;
-    background-color: #161b22;
-    border: 1px solid #4e3e6c;
+    background-color: #fffff;
+    border: 1px solid #ff9700;
     padding: 1rem;
     border-radius: 10px 0px 10px 0px;
 }
@@ -120,9 +120,9 @@ body {
 }
 
 .form_input {
-    color: #ffff;
+    color: #00000;
     font-weight: 800;
-    background-color: #161b22;
+    background-color: #fffff;
     border: 1px solid #032861;
     transition: 0.2s;
     padding: 0.1rem;
