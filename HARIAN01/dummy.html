@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="body-of-content">
+      <div class="container">
+        <div class="main-box main">
+          <img src="media/prop/nophoto.png" alt="" />
+          <form action="" method="post" class="user-index">
+            <h4>My Dashboard</h4>
+            <input
+              id="user"
+              name="name"
+              value="John Doe"
+              placeholder="full names"
+            />
+            <input
+              id="user"
+              type="email"
+              name="mail"
+              value="janedoe@outlook.com"
+              placeholder="mail address"
+            />
+            <input
+              id="submit-button"
+              type="submit"
+              name="submit"
+              value="Save"
+            />
+          </form>
+        </div>
+        <div class="main-box box-1">upper box</div>
+        <div class="main-box box-2">bottom box</div>
+      </div>
+    </div>
+  </body>
+  <style type="text/css">
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: "Quicksand", sans-serif;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      margin: 2rem;
+      width: 400px;
+      display: grid;
+      grid-template-areas:
+        "main box-1"
+        "main box-2";
+      width: 600px;
+      height: 300px;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .main-box {
+      visibility: visible;
+      border-radius: 30px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+    .main {
+      grid-area: main;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 1.5em;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .main img {
+      width: 150px;
+      border-radius: 100%;
+    }
+
+    .main .user-index {
+      display: flex;
+      justify-content: center;
+      /* align-items: center; */
+      flex-direction: column;
+    }
+
+    .main .user-index #user {
+      color: rgba(56, 56, 63, 0.679);
+      /* border-bottom-color: rgba(100, 100, 111, 0.2); */
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.009375em;
+      text-decoration: inherit;
+      text-transform: inherit;
+      align-self: flex-end;
+      box-sizing: border-box;
+      padding-block-start: 0.9rem;
+      transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 1px solid;
+      border-radius: 4px 4px 0 0;
+      /* background: rgb(245, 245, 245); */
+      &:focus {
+        border: 0px;
+      }
+      &:hover {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      }
+    }
+
+    .main .user-index #submit-button {
+      padding-inline: 1.6rem;
+      padding-block: 0.8rem;
+      background: linear-gradient(to left, red, orange);
+      border: 0px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 800;
+      margin-top: 2rem;
+      transition: 0.3s;
+      font-size: 1em;
+      box-sizing: border-box;
+      cursor: pointer;
+      &:hover {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding-inline: 2rem;
+      }
+    }
+
+    .box-1 {
+      grid-area: box-1;
+      /* background-color: lightblue; */
+    }
+
+    .box-2 {
+      grid-area: box-2;
+      /* background-color: brown; */
+    }
+  </style>
+</html>
