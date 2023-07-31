@@ -40,8 +40,38 @@
             />
           </form>
         </div>
-        <div class="main-box box-1">upper box</div>
-        <div class="main-box box-2">bottom box</div>
+        <div class="main-box box-1">
+          <form action="" method="post" class="user-index">
+            <h4>My Account</h4>
+            <input
+              id="user"
+              type="text"
+              name="username"
+              placeholder="username"
+              value="username"
+            />
+            <input
+              id="user"
+              type="text"
+              name="phone"
+              value="+62-128-1212-121"
+              placeholder="Phone"
+            />
+            <input
+              id="user"
+              type="text"
+              name="address"
+              value="RolePole Street, Surabaya, Indonesia"
+            />
+          </form>
+        </div>
+        <div class="main-box box-2">
+          <h4>My Billing</h4>
+          <div class="box" id="billing-box">
+            <div class="count-box">56</div>
+            <div class="total-box">56K</div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -80,7 +110,8 @@
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     }
 
-    .main {
+    .main,
+    .box-1 {
       grid-area: main;
       display: flex;
       justify-content: center;
@@ -96,14 +127,15 @@
       border-radius: 100%;
     }
 
-    .main .user-index {
+    .user-index {
       display: flex;
       justify-content: center;
-      /* align-items: center; */
+      float: left;
+      align-items: center;
       flex-direction: column;
     }
 
-    .main .user-index #user {
+    .user-index #user {
       color: rgba(56, 56, 63, 0.679);
       /* border-bottom-color: rgba(100, 100, 111, 0.2); */
       font-size: 0.9rem;
@@ -112,6 +144,7 @@
       text-decoration: inherit;
       text-transform: inherit;
       align-self: flex-end;
+      left: 5%;
       box-sizing: border-box;
       padding-block-start: 0.9rem;
       transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -155,6 +188,41 @@
     .box-2 {
       grid-area: box-2;
       /* background-color: brown; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .box-2 .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: 1rem;
+      margin-top: 1rem;
+      box-sizing: border-box;
+    }
+
+    .box-2 .box .count-box,
+    .total-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 800;
+      color: #ffffff;
+      background: linear-gradient(to left, red, orange);
+      transition: 0.5s;
+      cursor: pointer;
+      &:hover {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        width: 55px;
+        height: 55px;
+      }
     }
   </style>
 </html>
