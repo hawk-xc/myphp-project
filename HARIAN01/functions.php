@@ -19,15 +19,15 @@ function register($data, $img) {
     $gender = $data['gender'];
     $mail = $data['mail'];
     $phone = $data['phone'];
-    $address = $data['address'];
-    $username = $data['username'];
+    // $address = $data['address'];
+    $username = $data['user'];
     $password = mysqli_escape_string($connection, $data['password']);
 
     // file input
-    $image_name = $img['media']['name'];
-    $image_temp = $img['media']['tmp_name'];
-    $image_size = $img['media']['size'];
-    $image_type = $img['media']['type'];
+    $image_name = $img['gambar']['name'];
+    $image_temp = $img['gambar']['tmp_name'];
+    $image_size = $img['gambar']['size'];
+    $image_type = $img['gambar']['type'];
 
     $image_ext = explode(".", $image_name);
     $image_ext = strtolower(end($image_ext));
@@ -58,15 +58,13 @@ function register($data, $img) {
 
         // add user login credential
         $password = password_hash($password, PASSWORD_DEFAULT);
-        mysqli_query($connection, "INSERT INTO user (username, password) VALUES ('$username', '$password')");
+
+        mysqli_query($connection, "INSERT INTO user (username, password, first_name, last_name, mail, phone, img_path) VALUES ('$username', '$password', '$firstname', '$lastname', '$mail', '$phone', '$img')");
         // cek id apakah sudah exist
-        $id_exist = mysqli_query($connection, "SELECT id from user WHERE name='$username'");
-        if (mysqli_num_rows($id_exist)) {
-            mysqli_query($connection, "INSERT INTO user_desc (id, first_name, last_name, username, password, mail, phone, address) VALUES ($id_exist, '$firstname', '$lastname', '$username', '$password', '$mail', '$phone', '$address'");
+        
+        if (mysqli_affected_rows($connection)) {
             move_uploaded_file($image_temp, $img);
-            if (mysqli_affected_rows($connection)){
-                return 1;
-            }
+            return 1;
         }
     }
 }

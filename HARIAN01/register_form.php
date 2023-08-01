@@ -64,7 +64,7 @@
     <?php
         include 'functions.php';
         if(isset($_POST['submit']) > 0) {
-            if(register($_POST) === 1) {
+            if(register($_POST, $_FILES) === 1) {
                 echo "
                 <script>
                 alert('account successfull created');
