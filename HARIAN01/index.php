@@ -26,9 +26,8 @@ if(isset($_SESSION['login'])) {
       <h3>Warmindo Kenangan</h3>
       <ul class="menu">
         <li><a class="menuItem" href="#">Home</a></li>
-        <li><a class="menuItem" href="#">Profile</a></li>
         <?php
-        if(!isset($_COOKIE['host'])) {
+        if(!isset($_SESSION['login'])) {
         ?>
         <li><a class="menuItem" href="register_form.php">Sign Up</a></li>
         <li><a class="menuItem" href="login.php">Login</a></li>
@@ -36,7 +35,22 @@ if(isset($_SESSION['login'])) {
           $usercek = mysqli_query($connection, "SELECT username, img_path FROM user WHERE id=$id");
           $cek = mysqli_fetch_assoc($usercek)
         ?>
-        <li class="rata-tengah"><a class="menuItem" href="login.php" id="user"><?php echo "Hi ". $cek['username']; ?></a> &nbsp; &nbsp; <img src="<?php echo $cek['img_path']; ?>" alt="" style="width: 30px; height: 30px; border-radius: 100%" title="<?php echo $cek['username']. ' image'; ?>"></li>
+        <li><a class="menuItem special" href="#">Hi <?php echo $cek['username']; ?></a></li>
+        <li class="image-dropdown">
+          <details class="dropdown">
+            <summary role="button">
+              <img class="button" src="<?php echo $cek['img_path']; ?>" alt="" style="width: 30px; height: 30px; border-radius: 100%" title="<?php echo $cek['username']. ' image'; ?>">
+              <!-- <a class="button">Click on me!</a> -->
+            </summary>
+            <ul>  
+              <li><a href="#">Account</a></li>
+              <li><a href="cart.php">Cart</a></li>
+              <li><a href="logout.php">Log out</a></li>
+            </ul>
+          </details>
+        </li>
+        <li class="user-ex"><a href="cart.php">Cart</a></li>
+        <li class="user-ex"><a href="logout.php">Log out</a></li>
         <?php } ?>
       </ul>
       <button class="hamburger">
@@ -157,6 +171,22 @@ if(isset($_SESSION['login'])) {
   </script>
 
   <style type="text/css">
+    :root {
+      --hitam: #3b4252;
+      --shadow-box-1: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      --shadow-box-2: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      --soft-border: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+      --soft-border-1: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+        rgb(209, 213, 219) 0px 0px 0px 1px inset;
+      --button-background: dodgerblue;
+      --button-color: white;
+
+      --dropdown-highlight: dodgerblue;
+      --dropdown-width: 160px;
+      --dropdown-background: white;
+      --dropdown-color: black;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -193,11 +223,29 @@ if(isset($_SESSION['login'])) {
       list-style: none;
     }
 
+    .special {
+      padding: 0.3rem; 
+      background: #00ccff; 
+      border-radius: 10px;
+      /* font-weight: 800; */
+      box-sizing: border-box;
+      box-shadow: var(--shadow-box-2);
+    }
+
+    .special:active {
+        background: #009acd;
+      }
+
     .menu li {
       display: flex;
       /* height: 100%; */
       justify-content: center;
       align-items: center;
+    }
+
+    .menu .user-ex {
+      visibility: hidden;
+      display: none;
     }
 
     .hamburger {
@@ -361,6 +409,130 @@ if(isset($_SESSION['login'])) {
       left: 0px;
     }
 
+    .button {
+      /* Frame */
+      display: inline-block;
+      /* padding: 20px 28px; */
+      width: 30px;
+      border-radius: 50px;
+      box-sizing: border-box;
+
+      /* Style */
+      border: none;
+      background: var(--button-background);
+      color: var(--button-color);
+      font-size: 24px;
+      cursor: pointer;
+      transition: 0.4s;
+      position: inherit;
+      visibility: visible;
+    }
+
+    .button:active {
+      filter: brightness(75%);
+      border: 1px solid white;
+    }
+
+    /* Dropdown styles */
+    .dropdown {
+      position: relative;
+      padding: 0;
+      margin-right: 1em;
+    }
+
+    .dropdown summary {
+      list-style: none;
+      list-style-type: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dropdown > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .dropdown summary:focus {
+      outline: none;
+    }
+
+    .dropdown summary:focus a.button {
+      border: 2px solid white;
+    }
+
+    .dropdown summary:focus {
+      outline: none;
+    }
+
+    .dropdown ul {
+      position: absolute;
+      margin: 18px 0 0 0;
+      padding: 20px 0;
+      top: 20px;
+      width: var(--dropdown-width);
+      left: -100%;
+      margin-left: calc((var(--dropdown-width) / 2) * -1);
+      box-sizing: border-box;
+      z-index: 2;
+
+      background: #fbbbd3;
+      /* background: var(--dropdown-background); */
+      border-radius: 6px;
+      list-style: none;
+    }
+
+    .dropdown ul li {
+      padding: 0;
+      margin: 0;
+    }
+
+    .dropdown ul li a:link,
+    .dropdown ul li a:visited {
+      display: inline-block;
+      padding: 10px 0.8rem;
+      width: 100%;
+      box-sizing: border-box;
+
+      color: var(--dropdown-color);
+      text-decoration: none;
+    }
+
+    .dropdown ul li a:hover {
+      background-color: var(--dropdown-highlight);
+      color: var(--dropdown-background);
+    }
+
+    /* Dropdown triangle */
+    .dropdown ul::before {
+      content: " ";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: -9px;
+      left: 50%;
+      /* geser arrow */
+      margin-left: 37px; 
+      border-style: solid;
+      border-width: 0 10px 10px 10px;
+      border-color: transparent transparent #fbbbd3 transparent;
+    }
+
+    /* Close the dropdown with outside clicks */
+    .dropdown > summary::before {
+      display: none;
+    }
+
+    .dropdown[open] > summary::before {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 1;
+    }
+
     @media (min-width: 768px) {
       .button-52 {
         padding: 13px 50px 13px;
@@ -433,6 +605,35 @@ if(isset($_SESSION['login'])) {
       .showMenu {
         transform: translateY(0);
         background: linear-gradient(to left top, #fc2c78, #6d4079);
+      }
+
+      .button {
+        visibility: hidden;
+      }
+
+      .menu .image-dropdown {
+        display: none;
+      }
+
+      .menu .user-ex {
+        visibility: visible;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+        margin-bottom: 2.5rem;
+        font-size: 1.8rem;
+        color: white;
+        text-decoration: none;
+        z-index: 10;
+      }
+
+      .menu .menu-ex a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
       }
     }
   </style>
