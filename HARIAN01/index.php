@@ -27,8 +27,17 @@ if(isset($_SESSION['login'])) {
       <ul class="menu">
         <li><a class="menuItem" href="#">Home</a></li>
         <li><a class="menuItem" href="#">Profile</a></li>
+        <?php
+        if(!isset($_COOKIE['host'])) {
+        ?>
         <li><a class="menuItem" href="register_form.php">Sign Up</a></li>
         <li><a class="menuItem" href="login.php">Login</a></li>
+        <?php } else { 
+          $usercek = mysqli_query($connection, "SELECT username, img_path FROM user WHERE id=$id");
+          $cek = mysqli_fetch_assoc($usercek)
+        ?>
+        <li class="rata-tengah"><a class="menuItem" href="login.php" id="user"><?php echo "Hi ". $cek['username']; ?></a> &nbsp; &nbsp; <img src="<?php echo $cek['img_path']; ?>" alt="" style="width: 30px; height: 30px; border-radius: 100%" title="<?php echo $cek['username']. ' image'; ?>"></li>
+        <?php } ?>
       </ul>
       <button class="hamburger">
         <!-- material icons https://material.io/resources/icons/ -->
@@ -37,6 +46,10 @@ if(isset($_SESSION['login'])) {
       </button>
     </div>
     <div class="body-of-content">
+      <div class="the-canvas">
+        <img src="media/asset.png" alt="">
+      </div>
+
       <!-- menu section -->
       <div class="menu-container" id="menu">
         <?php
@@ -153,13 +166,15 @@ if(isset($_SESSION['login'])) {
     }
 
     .header {
-      background: linear-gradient(to left, #eebefa, #f3d9fa);
-      height: 40px;
+      background: linear-gradient(to left, #00ccff, #eebefa, #f3d9fa, #bcee68);
+      height: 50px;
       display: flex;
       justify-content: space-between;
       padding-inline: 1rem;
       position: relative;
       align-items: center;
+      box-sizing: border-box;
+      border-bottom: 3px solid orange;
     }
 
     .menu,
@@ -169,11 +184,20 @@ if(isset($_SESSION['login'])) {
       gap: 1.5rem;
       text-decoration: none;
       list-style: none;
+      color: white;
+      font-weight: 400;
     }
 
     .menuItem {
       display: inline;
       list-style: none;
+    }
+
+    .menu li {
+      display: flex;
+      /* height: 100%; */
+      justify-content: center;
+      align-items: center;
     }
 
     .hamburger {
@@ -188,50 +212,21 @@ if(isset($_SESSION['login'])) {
       flex-direction: column;
     }
 
-    .body-of-content .hello-world {
-      width: 100%;
+    /* the canvas */
+    .the-canvas {
       display: flex;
-      justify-content: space-between;
-      /* flex-wrap: wrap; */
-    }
-
-    .body-of-content .hello-world .typography {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      /* align-items: center; */
-      padding: 9rem;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
       width: 100%;
+      padding: 1rem;
+      box-sizing: border-box;
+      background-color: #e5f4fb;
     }
 
-    .body-of-content .hello-world .typography .mini-text {
-      font-size: 16px;
-      text-transform: uppercase;
-      font-weight: 800;
-      font-family: cursive;
+    .the-canvas img {
+      width: 300px;
     }
-
-    .body-of-content .hello-world .typography .banner-text {
-      font-family: cursive;
-      font-size: 55px;
-      color: #f48225;
-    }
-
-    .body-of-content .hello-world .typography .banner-text:hover {
-      outline: #232b2b;
-    }
-
-    .body-of-content .hello-world .banner {
-      position: sticky;
-      width: 100%;
-    }
-
-    .body-of-content .hello-world .banner img {
-      width: 550px;
-      /* if responsive breakpoint reached */
-      /* display: none; */
-    }
-
+    
     .body-of-content .menu-container {
       display: flex;
       width: 100%;
@@ -429,6 +424,10 @@ if(isset($_SESSION['login'])) {
         color: white;
         list-style: none;
         padding-top: 4rem;
+      }
+
+      .menu .rata-tengah img {
+        display: none;
       }
 
       .showMenu {
