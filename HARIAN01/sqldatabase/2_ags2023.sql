@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2023 at 12:24 AM
+-- Generation Time: Aug 02, 2023 at 12:41 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -60,7 +60,10 @@ INSERT INTO `cart` (`order_session`, `id`, `id_menus_image`, `menus_name`, `pric
 ('64bebc5ee16bf', 14, 2, 'Mie Ayam Jamur', 12000, '2023-07-25 01:01:02'),
 ('64bebc98eaa8f', 14, 13, 'Es Jeruk', 4000, '2023-07-25 01:02:00'),
 ('64bef191b2f5d', 14, 3, 'Mie Godok kaldu sosis', 15000, '2023-07-25 04:48:01'),
-('64c7e02552234', 13, 14, 'Es Teh', 3000, '2023-07-31 23:24:05');
+('64c7e02552234', 13, 14, 'Es Teh', 3000, '2023-07-31 23:24:05'),
+('64c92d3d6ae11', 17, 2, 'Mie Ayam Jamur', 12000, '2023-08-01 23:05:17'),
+('64c92d44acf04', 17, 6, 'Indomie Kuah kaldu ayam', 7000, '2023-08-01 23:05:24'),
+('64c92d4ceb724', 17, 13, 'Es Jeruk', 4000, '2023-08-01 23:05:32');
 
 -- --------------------------------------------------------
 
@@ -108,40 +111,29 @@ INSERT INTO `menus_image` (`id_menus_image`, `name`, `kind`, `tag`, `price`, `pa
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(150) NOT NULL
+  `password` varchar(150) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `mail` varchar(50) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `img_path` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`) VALUES
-(1, 'admin', '$2y$10$GgeUMFaV64Hpio3jQBXRG.dIPkpGWgU1qk6r51LVz7h'),
-(2, 'user', '$2y$10$imaCJ6BBmFvJRBM2XzuvCOV6pNLGsF5Yq9OeM7PXAG0'),
-(4, 'satu', '$2y$10$uDetnuPt39AC3xWHOCr2j.Tj9qaF25c/LWno7afY3T2'),
-(10, 'wahyu', '$2y$10$NWwmY.LZb//GBXr1nhIKUOmxCwIA1JooB4wkyz04Fcz'),
-(11, 'test', '$2y$10$WwCSt.NQrJYdiyzbU3dLU.5qKhasadtuKZnUPee.XogxoGIdqdzG.'),
-(12, 'root', '$2y$10$clIp/66HHUugPKh/U/UnVO0Fj42n/JogvonnMDXccXdIkKmlKmPe.'),
-(13, 'hawkxc', '$2y$10$i2rI4Jb5FR01xt/JGtPZp.Rsed5uFPA0xj5qq.S2FciyHQOFPsEci'),
-(14, 'fitriku', '$2y$10$aDDctf0tUnABiF6ha2Tlr.NWrJhHUUDlawfDWGl7C1Ejjg/HchNgC');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_desc`
---
-
-CREATE TABLE `user_desc` (
-  `decs_id` int(11) NOT NULL,
-  `id` int(11) NOT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `mail` varchar(100) DEFAULT 'N/A',
-  `phone` varchar(50) DEFAULT 'N/A',
-  `address` varchar(100) DEFAULT 'N/A'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+INSERT INTO `user` (`id`, `username`, `password`, `first_name`, `last_name`, `mail`, `phone`, `address`, `img_path`) VALUES
+(1, 'admin', '$2y$10$GgeUMFaV64Hpio3jQBXRG.dIPkpGWgU1qk6r51LVz7h', '', '', '', '', '', ''),
+(2, 'user', '$2y$10$imaCJ6BBmFvJRBM2XzuvCOV6pNLGsF5Yq9OeM7PXAG0', '', '', '', '', '', ''),
+(4, 'satu', '$2y$10$uDetnuPt39AC3xWHOCr2j.Tj9qaF25c/LWno7afY3T2', '', '', '', '', '', ''),
+(10, 'wahyu', '$2y$10$NWwmY.LZb//GBXr1nhIKUOmxCwIA1JooB4wkyz04Fcz', '', '', '', '', '', ''),
+(11, 'test', '$2y$10$WwCSt.NQrJYdiyzbU3dLU.5qKhasadtuKZnUPee.XogxoGIdqdzG.', '', '', '', '', '', ''),
+(14, 'fitriku', '$2y$10$aDDctf0tUnABiF6ha2Tlr.NWrJhHUUDlawfDWGl7C1Ejjg/HchNgC', '', '', '', '', '', ''),
+(16, 'wahyutc', '$2y$10$AK83Li4JACffsImQyp7W1.tEid5CTxuchbeLF0VE03eqMjiLgRvky', 'wahyu', 'tri cahyono', 'wahyutc068@gmail.com', '+6282139465611', '', 'media/images/64c92ab800149.png'),
+(17, 'hawkxc', '$2y$10$59si2pQSdlyk2STXGwOvN.3sbzg/ub0au6uQsWF4937Xhi0J0WjDq', 'hawkxc', 'hacker', 'hawkxc68@gmail.com', '+1 121-1282-9829', '', 'media/images/64c92d14a239a.png'),
+(18, '123', '$2y$10$qaDFJMVWtuWN1XNgdXUax.G9Xl.Flyfp0P8ca6sK7.cl1QpC.qdyi', 'sadf', 'asda', 'sad@dfs', 'sdfsdf', '', 'media/images/64c93d3867294.png');
 
 -- --------------------------------------------------------
 
@@ -180,13 +172,6 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `user_desc`
---
-ALTER TABLE `user_desc`
-  ADD PRIMARY KEY (`decs_id`),
-  ADD UNIQUE KEY `id` (`id`);
-
---
 -- Indexes for table `user_image`
 --
 ALTER TABLE `user_image`
@@ -207,13 +192,7 @@ ALTER TABLE `menus_image`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `user_desc`
---
-ALTER TABLE `user_desc`
-  MODIFY `decs_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `user_image`
@@ -230,12 +209,6 @@ ALTER TABLE `user_image`
 --
 ALTER TABLE `cart`
   ADD CONSTRAINT `fk_menu` FOREIGN KEY (`id_menus_image`) REFERENCES `menus_image` (`id_menus_image`);
-
---
--- Constraints for table `user_desc`
---
-ALTER TABLE `user_desc`
-  ADD CONSTRAINT `FK_user` FOREIGN KEY (`id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `user_image`
