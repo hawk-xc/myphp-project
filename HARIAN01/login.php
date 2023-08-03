@@ -60,14 +60,13 @@
                 }
                 
                 $_SESSION['login'] = true;
-                if(isset($_POST['remember'])) {
-                    $username = $_POST['username'];
-                    $query = mysqli_query($connection, "SELECT * FROM user WHERE username='$username'");
-                    $row = mysqli_fetch_assoc($query);
-
-                    setcookie('id', $row['id'], time() + 60 * 60 * 24 * 30);
-                    setcookie('host', hash('sha256', $row['username']), time() + 60 * 60 * 24 * 30);
-                }
+                // if(isset($_POST['remember'])) {
+                $username = $_POST['username'];
+                $query = mysqli_query($connection, "SELECT * FROM user WHERE username='$username'");
+                $row = mysqli_fetch_assoc($query);
+                setcookie('id', $row['id'], time() + 60 * 60 * 24 * 30);
+                setcookie('host', hash('sha256', $row['username']), time() + 60 * 60 * 24 * 30);
+                // }
                 header('Location: index.php');
             } elseif (login($_POST) === 2) {
                 echo "

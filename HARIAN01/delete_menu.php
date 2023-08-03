@@ -15,7 +15,7 @@ if(mysqli_affected_rows($connection) > 0) {
     echo "
     <script>
     alert('data order berhasil dihapus!');
-    window.location = 'cart.php?id=$id';
+    window.location = 'cart2.php?id=$id';
     </script>
     ";
     exit;
@@ -23,7 +23,7 @@ if(mysqli_affected_rows($connection) > 0) {
     echo "
     <script>
     alert('data order galat dihapus!');
-    window.location = 'cart.php?id=$id';
+    window.location = 'cart2.php?id=$id';
     </script>
     ";
     exit;
