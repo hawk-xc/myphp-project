@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-include 'functions.php';
-
-session_start();
-
-if(isset($_SESSION['login'])) {
-    if(isset($_COOKIE['host'])):
-        $id = $_COOKIE['id'];
-        $arr = sqlquery("SELECT * FROM user WHERE id=$id");
-    endif;
-}
-?>
-
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="dummy/3.png" />
     <script src="https://unpkg.com/feather-icons"></script>
-    <title>Halaman Utama</title>
+    <title>cart</title>
   </head>
+  <?php
+session_start();
+if(!isset($_SESSION['login'])) {
+    header('Location: login.php');
+    exit;
+}
 
+if($_GET['id'] !== $_COOKIE['id']) {
+    header('Location: login.php');
+    exit;
+}
+
+include 'functions.php';
+
+    $id = $_GET['id'];
+    $query = mysqli_query($connection, "SELECT order_session, id_menus_image, menus_name, COUNT(*) * price_list AS total_harga, COUNT(*) AS jumlah FROM cart WHERE id=$id GROUP BY menus_name;");
+    $total = sqlquery("SELECT SUM(price_list) AS jumlah FROM cart WHERE id=$id");
+    $count = mysqli_query($connection, "SELECT count(id) as count FROM cart WHERE id=$id GROUP BY menus_name;");
+
+    // if (mysqli_num_rows($query)) {
+  ?>
   <body>
     <div class="header">
       <h3>Warmindo Kenangan</h3>
       <ul class="menu">
-        <li><a class="menuItem" href="#">home</a></li>
+        <li><a class="menuItem" href="index.php">home</a></li>
         <?php
         if(!isset($_SESSION['login'])) {
         ?>
@@ -35,21 +42,32 @@ if(isset($_SESSION['login'])) {
           $usercek = mysqli_query($connection, "SELECT username, img_path FROM user WHERE id=$id");
           $cek = mysqli_fetch_assoc($usercek);
         ?>
-        <li><a class="menuItem special" href="#">Hi <?php echo $cek['username']; ?></a></li>
+        <li>
+          <a class="menuItem special" href="#"
+            >Hi
+            <?php echo $cek['username']; ?></a
+          >
+        </li>
         <li class="image-dropdown">
           <details class="dropdown">
             <summary role="button">
-              <img class="button" src="<?php echo $cek['img_path']; ?>" alt="" style="width: 30px; height: 30px; border-radius: 100%" title="<?php echo $cek['username']. ' account'; ?>">
+              <img
+                class="button"
+                src="<?php echo $cek['img_path']; ?>"
+                alt=""
+                style="width: 30px; height: 30px; border-radius: 100%"
+                title="<?php echo $cek['username']. ' account'; ?>"
+              />
               <!-- <a class="button">Click on me!</a> -->
             </summary>
-            <ul>  
+            <ul>
               <li><a href="users.php?id=<?php echo $id; ?>">Account</a></li>
-              <li><a href="cart2.php?id=<?php echo $id; ?>">Cart</a></li>
+              <li><a href="cart.php?id=<?php echo $id; ?>">Cart</a></li>
               <li><a href="logout.php">Log out</a></li>
             </ul>
           </details>
         </li>
-        <li class="user-ex"><a href="cart2.php?id=<?php echo $id; ?>">Cart</a></li>
+        <li class="user-ex"><a href="cart.php">Cart</a></li>
         <li class="user-ex"><a href="logout.php">Log out</a></li>
         <?php } ?>
       </ul>
@@ -59,86 +77,41 @@ if(isset($_SESSION['login'])) {
         <i class="closeIcon material-icons" data-feather="x"></i>
       </button>
     </div>
-    <div class="body-of-content">
-      <div class="the-canvas">
-        <img src="media/asset.png" alt="">
-      </div>
-
-      <!-- menu section -->
-      <div class="menu-container" id="menu">
-        <?php
-        $arr_menus = sqlquery("SELECT * FROM menus_image");
-        $menus = mysqli_query($connection, "SELECT * FROM menus_image");
-        while ($arr_menus = mysqli_fetch_assoc($menus)):
-            $hitungan = 1;
-        ?>
-        <div class="card-box">
-          <div class="card-image">
-            <div class="label-harga">
-              <?php echo "Rp. ". setprice($arr_menus['price']). "K<br>"; ?>
-            </div>
-            <img src="<?php echo $arr_menus['path']; ?>" alt="" />
-          </div>
-          <div class="card-description">
-            <h3><?php echo $arr_menus['name']; ?></h3>
-            <p><?php echo $arr_menus['kind']; ?></p>
-          </div>
-          <!-- menu price button -->
-          <!-- add to cart button -->
-          <div class="order-button">
-            <form action="" method="post">
-              <?php
-              if(!isset($_COOKIE['id']) and !isset($_COOKIE['host'])) {
-              ?>
-              <input
-                class="addchartbutton"
-                type="submit"
-                name="login_page"
-                value="Keranjang"
-                onclick="confirm('login?')"
-              />
-              <?php
-              if(isset($_POST['login_page'])) {
-                  header('Location: login.php');
-              }
-            } else {
-              ?>
-              <a
-                href="addcart.php?id=<?php echo $_COOKIE['id']; ?>&menu_id=<?php echo $arr_menus['id_menus_image']; ?>&menus_name=<?php echo $arr_menus['name']; ?>&price=<?php echo $arr_menus['price']; ?>"
-              >
-                <input
-                  class="addchartbutton"
-                  type="button"
-                  value="Keranjang"
-                  onclick="confirm('tambahkan ke cart?')"
-                />
-              </a>
-              <?php
-                            }
-                        ?>
-            </form>
-          </div>
-        </div>
-        <?php
-        $hitungan+=1;
-        endwhile;
-        if(isset($_POST['add']) > 0) { 
-          if(add_cart($_COOKIE['id'], $arr_menus['id_menus_image'])) {
-            echo "
-            <script>
-              alert('menu berhasil ditambahakan dicart');
-            </script>
-            "; 
-          } else { 
-            echo "
-            <script>
-              alert('menu gagal ditambahakan dicart');
-            </script>
-            "; 
-          } 
-        }
-        ?>
-        <!-- <img src="media/ayam-gif.gif" alt=""> -->
+    <div class="container">
+      <div class="menu-box">
+        <h4>Your cart (<?php echo mysqli_num_rows($count); ?> items)</h4>
+        <table>
+          <tr class="table-header">
+            <td>Item</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Panel</td>
+          </tr>
+          <?php
+          while ($arr = mysqli_fetch_assoc($query)):
+          ?>
+          <tr>
+            <td class="menu-item">
+              <span><?php echo $arr['menus_name']; ?></span>
+            </td>
+            <td><?php echo $arr['total_harga']; ?></td>
+            <td>
+              <div class="number-input">
+              <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+              <input class="quantity" min="1" max="9" name="jumlah" value="<?php echo $arr['jumlah']; ?>" type="number">
+              <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+              </div>
+            </td>
+            <td class="delete-col"><a href="delete_menu.php?menu_session=<?php echo $arr['order_session']; ?>&id=<?php echo $_GET['id']; ?>"
+              class="icon-delete"
+              onclick="return confirm('hapus?')">delete</a></td>
+          </tr>
+          <?php
+          endwhile;
+          echo $total['jumlah'];
+          // }
+          ?>
+        </table>
       </div>
     </div>
   </body>
@@ -169,7 +142,6 @@ if(isset($_SESSION['login'])) {
       menuItem.addEventListener("click", toggleMenu);
     });
   </script>
-
   <style type="text/css">
     :root {
       --hitam: #3b4252;
@@ -224,8 +196,8 @@ if(isset($_SESSION['login'])) {
     }
 
     .special {
-      padding: 0.3rem; 
-      background: #00ccff; 
+      padding: 0.3rem;
+      background: #00ccff;
       border-radius: 10px;
       /* font-weight: 800; */
       box-sizing: border-box;
@@ -233,8 +205,8 @@ if(isset($_SESSION['login'])) {
     }
 
     .special:active {
-        background: #009acd;
-      }
+      background: #009acd;
+    }
 
     .menu li {
       display: flex;
@@ -250,163 +222,6 @@ if(isset($_SESSION['login'])) {
 
     .hamburger {
       display: none;
-    }
-
-    /* body code */
-    .body-of-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    /* the canvas */
-    .the-canvas {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-      width: 100%;
-      padding: 1rem;
-      box-sizing: border-box;
-      background-color: #e5f4fb;
-    }
-
-    .the-canvas img {
-      width: 300px;
-    }
-    
-    .body-of-content .menu-container {
-      display: flex;
-      width: 100%;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-      margin-inline: 4rem;
-      justify-content: space-evenly;
-    }
-
-    .body-of-content .menu-container .card-box {
-      width: 230px;
-      font-size: 14px;
-      height: 430px;
-      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-      border-radius: 5px 5px 5px 5px;
-      margin: 2rem;
-      transition: 0.2s;
-    }
-    
-    .body-of-content .menu-container .card-box .card-image {
-      box-sizing: border-box;
-      background: linear-gradient(#fdeb71, #f8d800);
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      border-radius: 5px 5px 0px 0px;
-    }
-
-    .body-of-content .menu-container .card-box .card-image .label-harga {
-      padding: 0.5rem;
-      margin-right: 8rem;
-      margin-top: 1rem;
-      border-radius: 10px 10px 10px 10px;
-      background-color: white;
-      font-weight: 800;
-      position: absolute;
-      z-index: 5;
-    }
-
-    .body-of-content .menu-container .card-box .card-image img {
-      width: 200px;
-      transition: 0.5s;
-    }
-
-    .body-of-content .menu-container .card-box .card-image img:hover {
-      width: 210px;
-    }
-
-    .body-of-content .menu-container .card-box .card-image img:hover {
-      -webkit-filter: drop-shadow(2px 2px 0 white) drop-shadow(-2px 2px 0 white)
-        drop-shadow(2px -2px 0 white) drop-shadow(-2px -2px 0 white);
-
-      filter: drop-shadow(2px 2px 0 white) drop-shadow(-2px 2px 0 white)
-        drop-shadow(2px -2px 0 white) drop-shadow(-2px -2px 0 white);
-    }
-
-    .body-of-content .menu-container .card-box .card-description {
-      padding: 1rem;
-      height: 40%;
-    }
-
-    .body-of-content .menu-container .card-box .order-button {
-      position: sticky;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-
-    .body-of-content .menu-container .card-box .order-button .addchartbutton {
-      background-color: #c2fbd7;
-      border-radius: 100px;
-      box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
-        rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
-        rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
-        rgba(44, 187, 99, 0.15) 0 16px 32px;
-      color: green;
-      cursor: pointer;
-      display: inline-block;
-      font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto,
-        sans-serif;
-      padding: 7px 20px;
-      text-align: center;
-      text-decoration: none;
-      transition: all 250ms;
-      border: 0;
-      font-size: 16px;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-    }
-
-    .addchartbutton:hover {
-      box-shadow: rgba(44, 187, 99, 0.35) 0 -25px 18px -14px inset,
-        rgba(44, 187, 99, 0.25) 0 1px 2px, rgba(44, 187, 99, 0.25) 0 2px 4px,
-        rgba(44, 187, 99, 0.25) 0 4px 8px, rgba(44, 187, 99, 0.25) 0 8px 16px,
-        rgba(44, 187, 99, 0.25) 0 16px 32px;
-      transform: scale(1.05) rotate(-1deg);
-    }
-
-    /* CSS */
-    .button-52 {
-      margin-block: 3rem;
-      margin-inline: 1rem;
-      font-size: 16px;
-      font-weight: 200;
-      letter-spacing: 1px;
-      padding: 13px 20px 13px;
-      outline: 0;
-      border: 1px solid black;
-      cursor: pointer;
-      position: relative;
-      background-color: rgba(0, 0, 0, 0);
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-    }
-
-    .button-52:after {
-      content: "";
-      background-color: #ffe54c;
-      width: 100%;
-      z-index: -1;
-      position: absolute;
-      height: 100%;
-      top: 7px;
-      left: 7px;
-      transition: 0.2s;
-    }
-
-    .button-52:hover:after {
-      top: 0px;
-      left: 0px;
     }
 
     .button {
@@ -511,7 +326,7 @@ if(isset($_SESSION['login'])) {
       top: -9px;
       left: 50%;
       /* geser arrow */
-      margin-left: 37px; 
+      margin-left: 37px;
       border-style: solid;
       border-width: 0 10px 10px 10px;
       border-color: transparent transparent #fbbbd3 transparent;
@@ -533,21 +348,117 @@ if(isset($_SESSION['login'])) {
       z-index: 1;
     }
 
-    @media (min-width: 768px) {
-      .button-52 {
-        padding: 13px 50px 13px;
-      }
+    /* container menu dump */
+    .container {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container .menu-box {
+      width: 95%;
+      display: flex;
+      padding-top: 2rem;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    table {
+      /* border: 1px solid black; */
+      border-collapse: collapse;
+      border-radius: 10px;
+      box-sizing: border-box;
+      width: 90%;
+    }
+    
+    table .table-header {
+      border-bottom: 1px solid #b48ead;
+      padding: 0.4rem;
+      background: linear-gradient(to left, #00ccff, #eebefa, #f3d9fa, #bcee68);
+    }
+
+    table td {
+      border-bottom: 1px solid #b48ead;
+      padding: 0.4rem;
+    }
+
+    input[type="number"] {
+      -webkit-appearance: textfield;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .number-input {
+      border: 0;
+      display: inline-flex;
+    }
+
+    .number-input,
+    .number-input * {
+      box-sizing: border-box;
+    }
+
+    .number-input button {
+      outline:none;
+      -webkit-appearance: none;
+      background-color: transparent;
+      border: none;
+      align-items: center;
+      justify-content: center;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      margin: 0;
+      position: relative;
+      box-shadow: 0px 0px 1px #474747;
+        border-radius: 50%;
+    }
+
+    .number-input button:before,
+    .number-input button:after {
+      display: inline-block;
+      position: absolute;
+      content: '';
+      width: 10px;
+      height: 2px;
+      background-color: #212121;
+      transform: translate(-50%, -50%);
+    }
+    .number-input button.plus:after {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .number-input input[type=number] {
+      font-family: sans-serif;
+      max-width: 2.3rem;
+      padding: .1rem;
+      border: none;
+      border-width: 0 2px;
+      font-size: 17px;
+      /* font-weight: bold; */
+      text-align: center;
+    }
+
+    .delete-col a {
+      color: #3b4252;
+      transition: 0.4s;
+    }
+
+    .delete-col a:hover {
+      color: red;
     }
   </style>
 
   <!-- set media query -->
   <style type="text/css">
-    @media screen and (max-width: 730px) {
-      .body-of-content .hello-world .banner img {
-        display: none;
-      }
-    }
-
     @media screen and (max-width: 500px) {
       .menu {
         display: block;
@@ -634,6 +545,11 @@ if(isset($_SESSION['login'])) {
         justify-content: center;
         align-items: center;
         width: 100%;
+      }
+
+      table {
+        width: 100%;
+        font-size: 70%;
       }
     }
   </style>

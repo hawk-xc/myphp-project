@@ -5,148 +5,181 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;800&display=swap"
-      rel="stylesheet"
-    />
     <title>Document</title>
   </head>
   <body>
-    <!-- material icons CDN in the head section, see the html settings 👆-->
-    <div class="header">
-      <h3>Warmindo Kenangan</h3>
-      <ul class="menu">
-        <li><a class="menuItem" href="#">Home</a></li>
-        <li><a class="menuItem" href="#">Profile</a></li>
-        <li><a class="menuItem" href="#">Sign Up</a></li>
-        <li><a class="menuItem" href="#">Login</a></li>
+    <details class="dropdown">
+      <summary role="button">
+        <img src="media\images\64c92d14a239a.png" alt="" class="button" />
+        <!-- <a class="button">Click on me!</a> -->
+      </summary>
+      <ul>
+        <li><a href="#">I'm a dropdown.</a></li>
+        <li><a href="#">In Pure CSS</a></li>
+        <li><a href="#">As in...</a></li>
+        <li><a href="#">No JavaScript.</a></li>
+        <li><a href="#">At All.</a></li>
       </ul>
-      <button class="hamburger">
-        <!-- material icons https://material.io/resources/icons/ -->
-        <i class="menuIcon material-icons" data-feather="menu"></i>
-        <i class="closeIcon material-icons" data-feather="x"></i>
-      </button>
-    </div>
+    </details>
+    <script>
+      feather.replace();
+    </script>
   </body>
-  <script>
-    feather.replace();
-
-    const menu = document.querySelector(".menu");
-    const menuItems = document.querySelectorAll(".menuItem");
-    const hamburger = document.querySelector(".hamburger");
-    const closeIcon = document.querySelector(".closeIcon");
-    const menuIcon = document.querySelector(".menuIcon");
-
-    function toggleMenu() {
-      if (menu.classList.contains("showMenu")) {
-        menu.classList.remove("showMenu");
-        closeIcon.style.display = "none";
-        menuIcon.style.display = "block";
-      } else {
-        menu.classList.add("showMenu");
-        closeIcon.style.display = "block";
-        menuIcon.style.display = "none";
-      }
-    }
-
-    hamburger.addEventListener("click", toggleMenu);
-
-    menuItems.forEach(function (menuItem) {
-      menuItem.addEventListener("click", toggleMenu);
-    });
-  </script>
   <style type="text/css">
+    :root {
+      --hitam: #3b4252;
+      --shadow-box-1: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      --shadow-box-2: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      --soft-border: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+      --soft-border-1: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+        rgb(209, 213, 219) 0px 0px 0px 1px inset;
+      --button-background: dodgerblue;
+      --button-color: white;
+
+      --dropdown-highlight: dodgerblue;
+      --dropdown-width: 160px;
+      --dropdown-background: white;
+      --dropdown-color: black;
+    }
+
     * {
-      margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-      color: #6d4079;
+      margin: 0;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
 
-    .header {
-      background: linear-gradient(to left, #eebefa, #f3d9fa);
-      height: 40px;
+    html,
+    body {
+      width: 100%;
+      height: 100%;
       display: flex;
-      justify-content: space-between;
-      padding-inline: 1rem;
-      position: relative;
+      justify-content: center;
       align-items: center;
+      background-color: #3b4252;
     }
 
-    .menu,
-    a {
-      display: flex;
-      flex-direction: row;
-      gap: 1.5rem;
-      text-decoration: none;
+    /* Boring button styles */
+    .button {
+      /* Frame */
+      display: inline-block;
+      /* padding: 20px 28px; */
+      width: 30px;
+      border-radius: 50px;
+      box-sizing: border-box;
+
+      /* Style */
+      border: none;
+      background: var(--button-background);
+      color: var(--button-color);
+      font-size: 24px;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    .button:hover::after {
+      content: "skjdfn";
+    }
+
+    .button:active {
+      filter: brightness(75%);
+      border: 1px solid white;
+    }
+
+    /* Dropdown styles */
+    .dropdown {
+      position: relative;
+      padding: 0;
+      margin-right: 1em;
+
+      border: none;
+    }
+
+    .dropdown summary {
       list-style: none;
+      list-style-type: none;
     }
 
-    .menuItem {
-      display: inline;
-      list-style: none;
-    }
-
-    .hamburger {
+    .dropdown > summary::-webkit-details-marker {
       display: none;
     }
 
-    @media screen and (max-width: 500px) {
-      .menu {
-        display: block;
-      }
+    .dropdown summary:focus {
+      outline: none;
+    }
 
-      .menuItem {
-        display: block;
-        flex-direction: column;
-        margin: 2rem 4rem;
-        font-size: 1.8rem;
-        color: white;
-        text-decoration: none;
-      }
+    .dropdown summary:focus a.button {
+      border: 2px solid white;
+    }
 
-      .menuItem:hover {
-        text-decoration: underline;
-      }
+    .dropdown summary:focus {
+      outline: none;
+    }
 
-      .hamburger {
-        display: flex;
-        /* position: fixed; */
-        z-index: 100;
-        top: 1rem;
-        right: 1rem;
-        padding: 4px;
-        border: black solid 0px;
-        background: #eebefa;
-        cursor: pointer;
-      }
+    .dropdown ul {
+      position: absolute;
+      margin: 20px 0 0 0;
+      padding: 20px 0;
+      width: var(--dropdown-width);
+      left: 0%;
+      margin-left: calc((var(--dropdown-width) / 1.5) * -1);
+      box-sizing: border-box;
+      z-index: 2;
 
-      .closeIcon {
-        display: none;
-      }
+      background-color: aqua;
+      /* background: var(--dropdown-background); */
+      border-radius: 6px;
+      list-style: none;
+    }
 
-      .menu {
-        position: fixed;
-        transform: translateY(-100%);
-        transition: transform 0.5s;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 99;
-        background: black;
-        color: white;
-        list-style: none;
-        padding-top: 4rem;
-      }
+    .dropdown ul li {
+      padding: 0;
+      margin: 0;
+    }
 
-      .showMenu {
-        transform: translateY(0);
-        background: linear-gradient(to left top, #fc2c78, #6d4079);
-      }
+    .dropdown ul li a:link,
+    .dropdown ul li a:visited {
+      display: inline-block;
+      padding: 10px 0.8rem;
+      width: 100%;
+      box-sizing: border-box;
+
+      color: var(--dropdown-color);
+      text-decoration: none;
+    }
+
+    .dropdown ul li a:hover {
+      background-color: var(--dropdown-highlight);
+      color: var(--dropdown-background);
+    }
+
+    /* Dropdown triangle */
+    .dropdown ul::before {
+      content: " ";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: -10px;
+      left: 50%;
+      margin-left: 30px;
+      border-style: solid;
+      border-width: 0 10px 10px 10px;
+      border-color: transparent transparent aqua transparent;
+    }
+
+    /* Close the dropdown with outside clicks */
+    .dropdown > summary::before {
+      display: none;
+    }
+
+    .dropdown[open] > summary::before {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 1;
     }
   </style>
 </html>
