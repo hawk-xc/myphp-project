@@ -23,6 +23,7 @@
           type="text"
           name="password"
           placeholder="password"
+          autocomplete="off"
           required
         />
         <input class="submit-form" type="submit" name="submit" value="login" />
@@ -126,9 +127,10 @@
       box-sizing: border-box;
       transition: 0.3s;
       border: 1px solid #f3f3f3;
-      &:hover {
+    }
+
+    .container:hover {
         box-shadow: var(--shadow-box-2);
-      }
     }
 
     .container .text-tip {
@@ -167,10 +169,11 @@
       margin-block: 0.5rem;
       transition: 0.5s;
       margin-bottom: 3rem;
-      &:hover {
+    }
+
+    .container .submit-form:hover {
         background-color: #ab7af1;
         color: white;
-      }
     }
 
     .container .box-signin a {
@@ -181,10 +184,11 @@
       margin-inline-start: 0.5rem;
       box-sizing: border-box;
       transition-duration: 0.3s;
-      &:hover {
+    }
+
+    .container .box-signin a:hover {
         background-color: #ab7af1;
         color: white;
-      }
     }
   </style>
 </html>

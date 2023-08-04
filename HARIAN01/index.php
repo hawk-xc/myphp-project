@@ -35,7 +35,7 @@ if(isset($_SESSION['login'])) {
           $usercek = mysqli_query($connection, "SELECT username, img_path FROM user WHERE id=$id");
           $cek = mysqli_fetch_assoc($usercek);
         ?>
-        <li><a class="menuItem special" href="#">Hi <?php echo $cek['username']; ?></a></li>
+        <li><a class="menuItem special" href="users.php?id=<?php echo $id; ?>">Hi <?php echo $cek['username']; ?></a></li>
         <li class="image-dropdown">
           <details class="dropdown">
             <summary role="button">
@@ -43,9 +43,9 @@ if(isset($_SESSION['login'])) {
               <!-- <a class="button">Click on me!</a> -->
             </summary>
             <ul>  
-              <li><a href="users.php?id=<?php echo $id; ?>">Account</a></li>
-              <li><a href="cart2.php?id=<?php echo $id; ?>">Cart</a></li>
-              <li><a href="logout.php">Log out</a></li>
+              <li><a href="users.php?id=<?php echo $id; ?>" class="social-alert"><i data-feather="user-check" style="width: 15px; height: 15px"></i> Account</a></li>
+              <li><a href="cart2.php?id=<?php echo $id; ?>" class="social-alert"><i data-feather="shopping-cart" style="width: 15px; height: 15px"></i> Cart</a></li>
+              <li><a href="logout.php" onclick="return confirm('are you sure?')" class="social-alert"><i data-feather="log-out" style="width: 15px; height: 15px"></i> Log out</a></li>
             </ul>
           </details>
         </li>
@@ -428,8 +428,8 @@ if(isset($_SESSION['login'])) {
       visibility: visible;
     }
 
-    .button:active {
-      filter: brightness(75%);
+    .button:active, .button:focus {
+      filter: brightness(100%);
       border: 1px solid white;
     }
 
@@ -531,6 +531,11 @@ if(isset($_SESSION['login'])) {
       left: 0;
       bottom: 0;
       z-index: 1;
+    }
+
+    .social-alert {
+      display: flex;
+      align-items: center;
     }
 
     @media (min-width: 768px) {

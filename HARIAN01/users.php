@@ -1,215 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+include 'functions.php';
+
 session_start();
-if(!isset($_SESSION['login'])) {
-    header('Location: login.php');
-    exit;
+
+if(isset($_SESSION['login'])) {
+    if(isset($_COOKIE['host'])):
+        $id = $_COOKIE['id'];
+        $arr = sqlquery("SELECT * FROM user WHERE id=$id");
+        $total = sqlquery("SELECT SUM(price_list) AS jumlah FROM cart WHERE id=$id");
+        $count = sqlquery("SELECT COUNT(*) AS total FROM cart where id=$id");
+    endif;
 }
 ?>
-<?php
-    include 'functions.php';
 
-    $id = $_COOKIE['id'];
-    $arr = sqlquery("SELECT * FROM user WHERE id=$id");
-    $media = sqlquery("SELECT image FROM media WHERE id=$id");
-    $desc = sqlquery("SELECT * FROM description WHERE id=$id");
-?>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Manager : <?php echo $arr['username']; ?></title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="dummy/3.png" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <title>Halaman Utama</title>
+  </head>
+
+  <body>
+    <div class="body-of-content">
+      
+<!-- page body of content -->
     <div class="container">
-        <div class="left-box">
-            <a href="">user manager</a>
+        <div class="main-box main">
+          <img class="avatar-foto" src="<?php echo $arr['img_path']; ?>" alt="" />
+          <div class="change-image-box">
+            <i class="menuIcon material-icons" data-feather="edit-3"></i>
+          </div>
+          <form action="" method="post" class="user-index">
+            <h4>My Dashboard</h4>
+            <input
+              id="user"
+              name="name"
+              value="<?php echo $arr['first_name']. " ". $arr['last_name']; ?>"
+              placeholder="full names"
+            />
+            <input
+              id="user"
+              type="email"
+              name="mail"
+              value="<?php echo $arr['mail']; ?>"
+              placeholder="mail address"
+            />
+            <input
+              id="submit-button"
+              type="submit"
+              name="submit"
+              value="Save"
+            />
+          </form>
         </div>
-        <div class="right-box">
-            <div class="page">
-                <a href="index.php">Dashboard</a> > <a href="">Users</a>
-            </div>
-            <div class="image">
-                <img src="<?php echo $media['image']; ?>" alt="image <?php echo $_COOKIE['host']; ?>">
+        <div class="main-box box-1">
+          <form action="" method="post" class="user-index">
+            <h4>My Account</h4>
+            <input
+              id="user"
+              type="text"
+              name="username"
+              placeholder="username"
+              value="<?php echo $arr['username']; ?>"
+            />
+            <input
+              id="user"
+              type="text"
+              name="phone"
+              value="<?php echo $arr['phone']; ?>"
+              placeholder="Phone"
+            />
+            <input
+              id="user"
+              type="text"
+              name="address"
+              value="<?php echo $arr['address']; ?>"
+            />
+          </form>
+        </div>
+        <div class="main-box box-2">
+          <h4>My Billing</h4>
+          <div class="box" id="billing-box">
+            <div class="count-box"><?php echo $count['total']; ?></div>
+            <?php
+            if (!empty($total['jumlah'])) {
+            ?>
+            <div class="total-box"><?php echo setprice($total['jumlah']). "K"; ?></div>
+            <?php
+            } else {
+            ?>
+            <div class="total-box"><?php echo "0K"; ?></div>
+            <?php
+            }
+            ?>
+          </div>
+        </div>
+      </div>
 
-                <form action="" method="post">
-                    <input class="image-input" type="submit" name="ubah" value="ubah gambar">
-                    <input class="image-input" type="submit" name="ubah" value="hapus gambar">
-                </form>
-            </div>
-            <span class="title-header" style="font-weight: 800">Hello <?php echo $arr['username']. ", Today is ", date("D-m-Y"); ?></span>
-            <div class="user-form">
-                <form action="" method="post">
-                    <div class="box-input">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" value="<?php echo $arr['username']; ?>">
-                    </div>
-                    <div class="box-input">
-                        <label for="address">Address</label>
-                        <input type="text" id="address" name="address" value="<?php echo $desc['address']; ?>">
-                    </div>
-                    <div class="box-input">
-                        <label for="telp">Telp</label>
-                        <input type="text" id="telp" name="telp" value="<?php echo $desc['telp']; ?>">
-                    </div>
-                    <div class="box-input">
-                        <label for="id">Id User</label>
-                        <input type="text" id="id" name="id" value="<?php echo $desc['id']; ?>" disabled>
-                    </div>
-                    <div class="box-input">
-                        <label for="role">Role</label>
-                        <input type="text" id="role" name="role" value="<?php echo $desc['role']; ?>" disabled>
-                    </div>
-                    <div class="box-input">
-                        <label for="date">Create Date</label>
-                        <input type="text" id="date" name="date" value="<?php echo $desc['date']; ?>" disabled>
-                    </div>
-                </form>
-            </div>
-            <div class="panel">
-                <form action="" method="post">
-                    <input class="save" type="button" name="save" value="Save Update">
-                    <input class="delete" type="button" name="delete" value="Delete User" onclick="return confirm('apakah anda yakin?');">
-                </form>
-            </div>
-        </div>
     </div>
-</body>
-<style type="text/css">
-@import url('https://fonts.cdnfonts.com/css/mona-sans');
+  </body>
 
-* {
-    font-family: 'Mona-Sans', sans-serif;
-    font-family: 'Mona Sans', sans-serif;
-}
+  <style type="text/css">
+    :root {
+      --hitam: #3b4252;
+      --shadow-box: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      --shadow-box-1: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      --shadow-box-2: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      --soft-border: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+      --soft-border-1: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+        rgb(209, 213, 219) 0px 0px 0px 1px inset;
+      --button-background: dodgerblue;
+      --button-color: white;
 
-html, body {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+      --dropdown-highlight: dodgerblue;
+      --dropdown-width: 160px;
+      --dropdown-background: white;
+      --dropdown-color: black;
+    }
 
-.container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #414a4c;
-    flex-wrap: nowrap;
-}
+    html, body {
+        width: 100%;
+        height: 100%;
+    }
 
-.container .left-box {
-    width: 20%;
-    background-color: #f6f6f6;
-    height: 100%;
-    padding-top: 5rem;
-    padding-left: 2rem;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+      color: #6d4079;
+    }
 
-.container .right-box {
-    width: 80%;
-    background-color: white;
-    height: 100%;
-    padding-top: 5rem;
-    padding-left: 2rem;
-    display: flex;
-    flex-direction: column;
-}
+    /* body of content styling */
+    .body-of-content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    } 
 
-.container .right-box .page {
-    background-color: #d9eaf7;
-    padding-inline: 1rem;
-    padding-block: 0.5rem;
-    border-radius: 10px;
-    font-weight: 800;
-    width: 200px;
-}
+    .container {
+      display: grid;
+      grid-template-areas:
+        "main box-1"
+        "main box-2";
+      width: 600px;
+      height: 400px;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
 
-.container .right-box .page a {
-    text-decoration: none;
-}
+    .main-box {
+      visibility: visible;
+      border-radius: 30px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
 
-.container .right-box .image {
-    width: 30%;
-    display: flex;
-}
+    .main-box .avatar-foto {
+        transition: 0.4s;
+    }
 
-.container .right-box .image img {
-    border-radius: 100%;
-    width: 80px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    margin: 1rem;
-}
+    .main-box .avatar-foto:hover {
+        transform: scale(110%);
+        filter: brightness(110%);
+        box-shadow: var(--shadow-box);
+    }
 
-.container .right-box .image form {
-    margin: 1rem;
-}
+    .main-box .change-image-box {
+        background-color: #6d4079;
+        position: absolute;
+    }
 
-.container .right-box .image form .image-input {
-    margin-block: 0.3rem;
-    width: 140px;
-    height: 30px;
-}
+    .main,
+    .box-1 {
+      grid-area: main;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 1.5em;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
 
-.container .right-box .user-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 2rem;
-}
+    .main img {
+      width: 150px;
+      height: 150px;
+      border-radius: 100%;
+    }
 
-.container .right-box .user-form .box-input {
-    display: flex;
-    flex-direction: column;
-}
+    .user-index {
+      display: flex;
+      justify-content: center;
+      float: left;
+      align-items: center;
+      flex-direction: column;
+    }
 
-.container .right-box .user-form input {
-    width: 280px;
-    height: 30px;
-    flex: 1;
-    margin-bottom: 1rem;
-}
+    .user-index #user {
+      color: rgba(56, 56, 63, 0.679);
+      /* border-bottom-color: rgba(100, 100, 111, 0.2); */
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.009375em;
+      text-decoration: inherit;
+      text-transform: inherit;
+      align-self: flex-end;
+      left: 5%;
+      box-sizing: border-box;
+      padding-block-start: 0.9rem;
+      transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 1px solid;
+      border-radius: 4px 4px 0 0;
+      /* background: rgb(245, 245, 245); */
+      &:focus {
+        border: 0px;
+      }
+      &:hover {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      }
+    }
 
-.save {
-    width: 120px;
-    height: 30px;
-    background-color: #78C1F3;
-    border: 0px;
-    border-radius: 5px;
-    font-weight: 800;
-    transition: 0.2s;
-}
+    .main .user-index #submit-button {
+      padding-inline: 1.6rem;
+      padding-block: 0.8rem;
+      background: linear-gradient(to left, red, orange);
+      border: 0px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 800;
+      margin-top: 2rem;
+      transition: 0.3s;
+      font-size: 1em;
+      box-sizing: border-box;
+      cursor: pointer;
+      &:hover {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding-inline: 2rem;
+      }
+    }
 
-.save:hover {
-    background-color: #9BE8D8;
-}
+    .box-1 {
+      grid-area: box-1;
+      /* background-color: lightblue; */
+    }
 
-.save:active {
-    background-color: #ffff;
-}
+    .box-2 {
+      grid-area: box-2;
+      /* background-color: brown; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
 
-.delete {
-    width: 120px;
-    height: 30px;
-    background-color: #ED2B2A;
-    border: 0px;
-    border-radius: 5px;
-    font-weight: 800;
-    color: white;
-    transition: 0.2s;
-}
+    .box-2 .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: 1rem;
+      margin-top: 1rem;
+      box-sizing: border-box;
+    }
 
-.delete:hover {
-    background-color: #D21312;
-}
+    .box-2 .box .count-box,
+    .total-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 800;
+      color: #ffffff;
+      background: linear-gradient(to left, red, orange);
+      transition: 0.5s;
+      cursor: pointer;
+      &:hover {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        width: 55px;
+        height: 55px;
+      }
+    }
 
-.delete:active {
-    background-color: #CD1818;
-}
+    @media (min-width: 768px) {
+      .button-52 {
+        padding: 13px 50px 13px;
+      }
+    }
+  </style>
 
-</style>
+  <!-- set media query -->
+  <style type="text/css">
+
+    @media screen and (max-width: 500px) {
+        .body-of-content {
+            display: flex;
+            margin-top: 1rem;
+            /* width: 90%; */
+        }
+
+        .container {
+            grid-template-areas:
+              "main"
+              "box-1"
+              "box-2";
+            grid-template-columns: 1fr;
+        }
+        .box-2 {
+            padding: 1rem;
+        }
+    }
+  </style>
 </html>
