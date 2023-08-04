@@ -61,9 +61,9 @@ include 'functions.php';
               <!-- <a class="button">Click on me!</a> -->
             </summary>
             <ul>
-              <li><a href="users.php?id=<?php echo $id; ?>">Account</a></li>
-              <li><a href="cart.php?id=<?php echo $id; ?>">Cart</a></li>
-              <li><a href="logout.php">Log out</a></li>
+              <li><a href="users.php?id=<?php echo $id; ?>" class="social-alert"><i data-feather="user-check" style="width: 15px; height: 15px;"></i> Account</a></li>
+              <li><a href="cart2.php?id=<?php echo $id; ?>" class="social-alert"><i data-feather="shopping-cart" style="width: 15px; height: 15px"></i> Cart</a></li>
+              <li><a href="logout.php" onclick="return confirm('are you sure?')" class="social-alert"><i data-feather="log-out" style="width: 15px; height: 15px"></i> Log out</a></li>
             </ul>
           </details>
         </li>
@@ -97,17 +97,34 @@ include 'functions.php';
             <td><?php echo $arr['total_harga']; ?></td>
             <td>
               <div class="number-input">
-              <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
-              <input class="quantity" min="1" max="9" name="jumlah" value="<?php echo $arr['jumlah']; ?>" type="number">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                <form action="" method="post">
+                  <input name="jumlah" class="quantity" min="1" max="9" value="<?php echo $arr['jumlah']; ?>" type="number">
+                </form>
               <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
               </div>
             </td>
-            <td class="delete-col"><a href="delete_menu.php?menu_session=<?php echo $arr['order_session']; ?>&id=<?php echo $_GET['id']; ?>"
+            <td class="delete-col">
+              <?php
+              if (!empty($_POST['jumlah'])) {
+              ?>
+              <a href="delete_menu.php?menu_session=<?php echo $arr['order_session']; ?>&id=<?php echo $_GET['id']; ?>&menu_id=<?php echo $arr['id_menus_image']; ?>&value=<?php echo $arr['jumlah']; ?>"
               class="icon-delete"
-              onclick="return confirm('hapus?')">delete</a></td>
+              onclick="return confirm('hapus?')">
+              <?php
+              } else {
+              ?>
+              <a href="delete_menu.php?menu_session=<?php echo $arr['order_session']; ?>&id=<?php echo $_GET['id']; ?>&menu_id=<?php echo $arr['id_menus_image']; ?>&value=1"
+              class="icon-delete"
+              onclick="return confirm('hapus?')">
+              <i data-feather="trash-2" style="width: 15px; height: 15px"></i> delete</a></td>
+              <?php
+              }
+              ?>
           </tr>
           <?php
           endwhile;
+          echo var_dump($_POST);
           echo $total['jumlah'];
           // }
           ?>
@@ -447,6 +464,14 @@ include 'functions.php';
       text-align: center;
     }
 
+    .icon-delete {
+      margin: 0;
+      display: inline;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
     .delete-col a {
       color: #3b4252;
       transition: 0.4s;
@@ -551,6 +576,10 @@ include 'functions.php';
         width: 100%;
         font-size: 70%;
       }
+
+      .delete-col {
+      display: flex;
+    }
     }
   </style>
 </html>

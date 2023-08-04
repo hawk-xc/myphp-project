@@ -62,12 +62,12 @@ include 'functions.php';
             </summary>
             <ul>
               <li><a href="users.php?id=<?php echo $id; ?>">Account</a></li>
-              <li><a href="cart.php?id=<?php echo $id; ?>">Cart</a></li>
+              <li><a href="cart2.php?id=<?php echo $id; ?>">Cart</a></li>
               <li><a href="logout.php">Log out</a></li>
             </ul>
           </details>
         </li>
-        <li class="user-ex"><a href="cart.php">Cart</a></li>
+        <li class="user-ex"><a href="cart2.php">Cart</a></li>
         <li class="user-ex"><a href="logout.php">Log out</a></li>
         <?php } ?>
       </ul>
