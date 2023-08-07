@@ -132,6 +132,65 @@ include 'functions.php';
       </div>
     </div>
   </body>
+  <footer>
+    <div class="message-box">
+      <span>if you have some question, send to our WhatsApp</span>
+      <button>
+        click on it
+        <img class="whatsapp-image" src="media/whatsapp-svg.svg" alt="" />
+      </button>
+    </div>
+    <div class="footer-container">
+      <div class="title">
+        <div class="left-side">
+          <h2>warmindo kenangan</h2>
+          👋 hello, your at footer site, now all information about this website
+          in here! :)
+        </div>
+        <div class="right-side">
+          <i class="social-icon" data-feather="facebook"></i>
+          <i class="social-icon" data-feather="linkedin"></i>
+          <i class="social-icon" data-feather="twitter"></i>
+        </div>
+      </div>
+
+      <div class="footer-body">
+        <div class="left-side">
+          <div class="spoke">
+            <h3>documentation</h3>
+            <ul>
+              <li><a href="">source code</a></li>
+              <li><a href="">my github</a></li>
+              <li><a href="">sponsor</a></li>
+            </ul>
+          </div>
+          <div class="spoke">
+            <h3>about writter</h3>
+            <ul>
+              <li><a href="">my snippet</a></li>
+              <li><a href="">my portofolio</a></li>
+              <li><a href="">join our social platform</a></li>
+            </ul>
+          </div>
+          <div class="spoke">
+            <h3>about writter</h3>
+            <ul>
+              <li><a href="">my snippet</a></li>
+              <li><a href="">my portofolio</a></li>
+              <li><a href="">join our social platform</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="right-side">
+          <img class="qrcode-image" src="media/hawkxcsaweria.png" alt="" />
+        </div>
+      </div>
+
+    </div>
+  </footer>
+  <div class="copy">
+    hawkwebmaster&copy;2023 - GitHub content - 2023 - All rights reserved.
+  </div>
   <script>
     feather.replace();
 
@@ -480,6 +539,122 @@ include 'functions.php';
     .delete-col a:hover {
       color: red;
     }
+    footer {
+    width: 100%;
+    margin-top:10rem;
+    height: 40vh; /* 40vh */
+    background: linear-gradient(to left, #00ccff, #eebefa, #f3d9fa, #bcee68);
+    bottom: 0;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    padding-top: 1rem;
+  }
+
+  /* footer particle */
+  .message-box {
+    width: 70%;
+    padding-block: 0.5rem;
+    padding-inline: 0.8rem;
+    background-color: #0a0a23;
+    position: absolute;
+    top: -25px;
+    border-radius: 20px;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .message-box span {
+    text-decoration: underline;
+  }
+
+  .message-box button {
+    text-decoration: none;
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #bcee68;
+    border: 0px;
+    border-radius: 10px;
+  }
+
+  .message-box .whatsapp-image {
+    width: 20px;
+  }
+
+  .footer-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 0.9rem;
+    gap: 1rem;
+  }
+
+  .footer-container .title {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    justify-content: space-between;
+    /* padding-inline: 2rem; */
+    align-items: center;
+    color: #222222;
+  }
+
+  .footer-container .title .right-side {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .footer-body {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-block: 0.5rem;
+    box-sizing: border-box;
+    padding-inline: 2rem;
+  }
+
+  .footer-body .left-side {
+    display: flex;
+    flex-direction: row;
+    gap: 1.8rem;
+  }
+
+  .footer-body .left-side .spoke a {
+    color: blue;
+  }
+
+  .footer-body .left-side ul {
+    list-style-type: none;
+  }
+
+  /* this copy section */
+  .copy {
+    padding: 0.5rem;
+    /* position: sticky; */
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    font-size: 80%;
+    justify-content: center;
+    align-items: center;
+    background-color: #222222;
+    color: white;
+  }
+
+  .footer-body .right-side .qrcode-image {
+    width: 100px;
+  }
   </style>
 
   <!-- set media query -->
@@ -579,6 +754,46 @@ include 'functions.php';
 
       .delete-col {
       display: flex;
+    }
+     footer {
+      height: 35vh;
+    }
+
+    * {
+      font-size: 95%;
+    }
+
+    .footer-container .title {
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: start;
+    }
+
+    .footer-container .title .left-side {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .footer-container .title .right-side .social-icon {
+      background: white;
+      padding: 0.4rem;
+      transition: 0.3s;
+    }
+
+    .footer-container .title .right-side .social-icon:hover {
+      background: linear-gradient(to left top, #00ccff, #eebefa, #bcee68);
+    }
+
+    .footer-container .copy {
+      font-size: 80%;
+    }
+
+    .footer-body .right-side .qrcode-image {
+      width: 80%;
+      margin-left: 1rem;
     }
     }
   </style>
